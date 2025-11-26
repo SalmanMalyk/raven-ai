@@ -1,4 +1,4 @@
-import { ChatAnthropic } from "@langchain/anthropic";
+import { ChatAnthropic } from '@langchain/anthropic';
 
 export const model = new ChatAnthropic({
   model: process.env.ANTHROPIC_MODEL,

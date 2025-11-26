@@ -12,6 +12,8 @@ import { healthCheck } from './handlers/healthcheck';
 
 // routes
 import generateRoutes from './routes/generation.routes';
+import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
 
 const app: express.Application = express();
 
@@ -22,7 +24,10 @@ app.use(cookieParser());
 
 app.get('/api', healthCheck);
 
-app.use('/api/generate', generateRoutes)
+app.use('/api/generate', generateRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
+
 
 // catch 404 and forward to error handler
 app.use((_req, _res, next) => {
