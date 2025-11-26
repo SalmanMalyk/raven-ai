@@ -14,6 +14,7 @@ declare global {
         phone?: string | null;
         last_sign_in_at?: string | null;
       };
+      token?: string;
     }
   }
 }
@@ -62,6 +63,9 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
       phone: data.user?.phone,
       last_sign_in_at: data.user?.last_sign_in_at,
     };
+
+    // Attach token to request for RLS operations
+    req.token = token;
 
     // Continue to next middleware/handler
     next();

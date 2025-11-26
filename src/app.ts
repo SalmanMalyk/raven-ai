@@ -14,6 +14,7 @@ import { healthCheck } from './handlers/healthcheck';
 import generateRoutes from './routes/generation.routes';
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
+import agentsRoutes from './routes/agents.routes';
 
 const app: express.Application = express();
 
@@ -27,6 +28,7 @@ app.get('/api', healthCheck);
 app.use('/api/generate', generateRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/agents', agentsRoutes);
 
 
 // catch 404 and forward to error handler
