@@ -152,11 +152,7 @@ export const getAgents = async (req: Request, res: Response): Promise<void> => {
     const supabase = getAuthenticatedSupabaseClient(token);
 
     // Fetch agents from database
-    const { data, error } = await supabase
-      .from('agents')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false });
+    const { data, error } = await supabase.from('agents').select('*').eq('user_id', userId).order('created_at', { ascending: false });
 
     if (error) {
       const response: AgentResponse = {
@@ -219,12 +215,7 @@ export const getAgentById = async (req: Request, res: Response): Promise<void> =
     const supabase = getAuthenticatedSupabaseClient(token);
 
     // Fetch agent from database
-    const { data, error } = await supabase
-      .from('agents')
-      .select('*')
-      .eq('id', id)
-      .eq('user_id', userId)
-      .single();
+    const { data, error } = await supabase.from('agents').select('*').eq('id', id).eq('user_id', userId).single();
 
     if (error) {
       const response: AgentResponse = {
@@ -383,11 +374,7 @@ export const deleteAgent = async (req: Request, res: Response): Promise<void> =>
     const supabase = getAuthenticatedSupabaseClient(token);
 
     // Delete agent from database
-    const { error } = await supabase
-      .from('agents')
-      .delete()
-      .eq('id', id)
-      .eq('user_id', userId);
+    const { error } = await supabase.from('agents').delete().eq('id', id).eq('user_id', userId);
 
     if (error) {
       const response: AgentResponse = {

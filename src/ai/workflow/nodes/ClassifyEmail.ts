@@ -1,8 +1,11 @@
 import { ClassificationTypes } from '@/constants/ClassificationTypes';
 import { model } from '../../llm';
 import { RequestEmail } from 'src/handlers/generation';
+import logger from '@/utils/logger';
 
 export async function classifyEmail(state: { email: RequestEmail }) {
+  logger.info('Step 2:Classifying email');
+
   const classifications = Object.values(ClassificationTypes).join(', ');
 
   const response = await model.invoke([
@@ -14,7 +17,8 @@ export async function classifyEmail(state: { email: RequestEmail }) {
   ]);
 
   const classification = response.content as string;
-  console.log(`Email classified as: ${classification}`);
+
+  logger.info(`Email classified as: ${classification}`);
 
   return { classify: classification };
 }
