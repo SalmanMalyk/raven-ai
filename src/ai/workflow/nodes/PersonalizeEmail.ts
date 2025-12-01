@@ -1,20 +1,13 @@
 import { Agent } from '@/types/agent.types';
+import { generatedResponseSchema } from '@/types/email.type';
 import logger from '@/utils/logger';
 import { StructuredOutputParser } from '@langchain/core/output_parsers';
 import { RequestEmail } from 'src/handlers/generation';
-import * as z from 'zod';
 
 export async function personalizeEmail(state: { email: RequestEmail; agent: Agent }) {
   logger.info('Step 1:Personalizing email');
 
-  const responseSchema = z.object({
-    subject: z.string(),
-    body: z.string(),
-    classification: z.string(),
-    reasoning: z.string(),
-  });
-
-  const parser = StructuredOutputParser.fromZodSchema(responseSchema);
+  const parser = StructuredOutputParser.fromZodSchema(generatedResponseSchema);
 
   const prompt = `
     You are an expert AI Sales and Communication Agent acting on behalf of a real person/entity. Your goal is to generate a relevant, human-sounding response to an incoming email.
