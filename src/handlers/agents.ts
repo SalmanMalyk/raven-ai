@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { z } from 'zod';
+import * as z from 'zod';
 import { getAuthenticatedSupabaseClient } from '../utils/supabase';
 import { AgentResponse } from '../types/agent.types';
 
@@ -15,6 +15,8 @@ const createAgentSchema = z.object({
   tone: z.enum(['professional', 'friendly', 'casual', 'formal', 'enthusiastic']).optional(),
   language: z.string().length(2, 'Language must be a 2-letter ISO code').optional(),
   business_hours: z.string().max(255, 'Business hours must be less than 255 characters').optional(),
+  keywords: z.array(z.string()).min(1),
+  match_all_keywords: z.boolean().default(false),
 });
 
 const updateAgentSchema = z.object({
@@ -28,6 +30,8 @@ const updateAgentSchema = z.object({
   tone: z.enum(['professional', 'friendly', 'casual', 'formal', 'enthusiastic']).optional(),
   language: z.string().length(2, 'Language must be a 2-letter ISO code').optional(),
   business_hours: z.string().max(255, 'Business hours must be less than 255 characters').optional(),
+  keywords: z.array(z.string()).optional(),
+  match_all_keywords: z.boolean().optional(),
 });
 
 /**
@@ -79,6 +83,8 @@ export const createAgent = async (req: Request, res: Response): Promise<void> =>
         tone: validatedData.tone || 'professional',
         language: validatedData.language || 'en',
         business_hours: validatedData.business_hours || null,
+        keywords: validatedData.keywords || [],
+        match_all_keywords: validatedData.match_all_keywords || false,
       })
       .select()
       .single();
@@ -105,7 +111,7 @@ export const createAgent = async (req: Request, res: Response): Promise<void> =>
       const response: AgentResponse = {
         success: false,
         message: 'Validation error',
-        error: error.issues.map((e) => e.message).join(', '),
+        error: z.flattenError(error),
       };
       res.status(400).json(response);
       return;

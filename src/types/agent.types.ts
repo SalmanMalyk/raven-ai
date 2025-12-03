@@ -11,6 +11,8 @@ export interface Agent {
   tone?: string;
   language?: string;
   business_hours?: string;
+  keywords?: string[];
+  match_all_keywords?: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -26,6 +28,8 @@ export interface CreateAgentRequest {
   tone?: string;
   language?: string;
   business_hours?: string;
+  keywords?: string[];
+  match_all_keywords?: boolean;
 }
 
 export interface UpdateAgentRequest {
@@ -39,6 +43,8 @@ export interface UpdateAgentRequest {
   tone?: string;
   language?: string;
   business_hours?: string;
+  keywords?: string[];
+  match_all_keywords?: boolean;
 }
 
 export interface AgentResponse {
