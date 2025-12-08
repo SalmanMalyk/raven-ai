@@ -1,3 +1,7 @@
+<div align="center">
+   <img src="https://raw.githubusercontent.com/SalmanMalyk/raven-ai/main/public/icon.png" alt="Raven AI" width="300">
+</div>
+
 <h1 align="center">Raven AI</h1>
 
 <p align="center">
